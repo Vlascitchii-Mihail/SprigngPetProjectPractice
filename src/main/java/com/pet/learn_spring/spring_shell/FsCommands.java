@@ -1,4 +1,4 @@
-package com.pet.learn_spring;
+package com.pet.learn_spring.spring_shell;
 
 import com.pet.learn_spring.core.FileSystem;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,6 @@ import org.springframework.util.unit.DataSize;
 public class FsCommands {
 
     private final FileSystem fileSystem;
-    @Autowired
     public FsCommands(FileSystem fileSystem) {
         this.fileSystem = fileSystem;
     }

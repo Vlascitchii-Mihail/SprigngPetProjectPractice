@@ -12,7 +12,7 @@ import java.nio.file.Paths;
 public class FileSystem {
 
     private final Path root = Paths.get(System.getProperty("user.home"))
-            .resolve("SpringDirectory");
+            .resolve("SpringDirectory/unicorns");
 
     public FileSystem() {
         if (!Files.isDirectory(root)) {
