@@ -8,6 +8,8 @@ import org.springframework.shell.standard.ShellMethod;
 import javax.imageio.ImageIO;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Random;
 
 @ShellComponent
@@ -35,5 +37,19 @@ public class PhotoCommands {
                 return "Unable to read the image dimensions";
             }
         }).orElse("Image not found");
+    }
+
+    @ShellMethod("Upload photo")
+    String uploadPhoto(String fileName) {
+        String loadMsg = "Empty";
+        try {
+        byte[] bytes = Files.readAllBytes(Paths.get(fileName));
+
+        loadMsg = "Uploaded " + photoService.upload(bytes);
+
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+        return loadMsg;
     }
 }
