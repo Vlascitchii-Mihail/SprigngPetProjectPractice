@@ -1,5 +1,8 @@
 package com.pet.learn_spring.core;
 
+import com.pet.learn_spring.infrastructure.LowDiskSpaceCondition;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -9,6 +12,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @Service
+@ConditionalOnExpression
+@Conditional(LowDiskSpaceCondition.class)
 public class FileSystem {
 
     private final Path root = Paths.get(System.getProperty("user.home"))
