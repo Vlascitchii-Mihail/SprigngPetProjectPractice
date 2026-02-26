@@ -1,0 +1,19 @@
+spring:
+  application:
+   name: learn_spring
+  main:
+    banner-mode: off
+    lazy-initialization: false
+
+logging:
+  level:
+   com:
+    pet:
+     learn_spring: DEBUG
+   org:
+    springframework: ERROR
+
+com:
+  yaml-custom-value:
+    yaml-trees: 200
+    yaml-filesystem-minimum-free-disk-space: 1000000

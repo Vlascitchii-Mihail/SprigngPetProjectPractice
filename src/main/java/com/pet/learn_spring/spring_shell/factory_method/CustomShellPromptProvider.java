@@ -1,10 +1,12 @@
 package com.pet.learn_spring.spring_shell.factory_method;
 
 import com.pet.learn_spring.core.FileSystem;
+import com.pet.learn_spring.core.configuration.CustomConfigurationProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jline.utils.AttributedString;
 import org.springframework.beans.factory.InjectionPoint;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
@@ -38,5 +40,11 @@ public class CustomShellPromptProvider  {
         && member.isAnnotationPresent(CryptographicalAnnotation.class))
                 ? new SecureRandom()
         : new Random();
+    }
+
+    @Bean
+    @ConfigurationProperties("com.custom-value")
+    public CustomConfigurationProperty getCustomConfigurationProperty() {
+        return new CustomConfigurationProperty();
     }
 }
