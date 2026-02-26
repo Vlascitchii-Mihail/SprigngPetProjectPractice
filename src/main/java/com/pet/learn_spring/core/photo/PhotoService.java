@@ -4,7 +4,6 @@ import com.pet.learn_spring.core.FileSystem;
 import com.pet.learn_spring.core.photo.thumbnail.Thumbnail;
 import com.pet.learn_spring.core.photo.thumbnail.ThumbnailRendering;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.UncheckedIOException;
@@ -15,13 +14,15 @@ import java.util.UUID;
 public class PhotoService {
 
     private final FileSystem fileSystem;
+    private final Thumbnail thumbnail;
 
-    @Autowired
-    @ThumbnailRendering(ThumbnailRendering.RenderQuality.FAST)
-    private Thumbnail thumbnail;
-
-    public PhotoService(@NotNull FileSystem fileSystem) {
+    public PhotoService(
+            @NotNull FileSystem fileSystem,
+            @ThumbnailRendering(ThumbnailRendering.RenderQuality.FAST)
+            Thumbnail thumbnail
+    ) {
         this.fileSystem = fileSystem;
+        this.thumbnail = thumbnail;
     }
 
     public Optional<byte[]> download(String name) {
