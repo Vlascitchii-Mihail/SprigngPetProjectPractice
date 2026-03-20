@@ -1,19 +1,21 @@
 spring:
-  application:
-   name: learn_spring
+  application.name: learn_spring
   main:
     banner-mode: off
     lazy-initialization: false
 
 logging:
   level:
-   com:
-    pet:
-     learn_spring: DEBUG
-   org:
-    springframework: ERROR
+   com.pet.learn_spring: DEBUG
+   org.springframework: ERROR
 
-com:
-  yaml-custom-value:
+com.yaml-custom-value:
     yaml-trees: 200
     yaml-filesystem-minimum-free-disk-space: 1000000
+    servers-list:
+      - ip:126.32.66.28
+      - 111.229.178.175
+    servers-map:
+      home-server.ip: 126.32.66.28
+      traffic-server.ip: 111.229.178.175
+

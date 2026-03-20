@@ -10,6 +10,9 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.util.unit.DataSize;
 
+import java.util.List;
+import java.util.Map;
+
 @ShellComponent
 public class FsCommands {
     private final FileSystem fileSystem;
@@ -62,5 +65,25 @@ public class FsCommands {
     public int getYamlCustomPropertyValue() {
         YamlCustomValue yamlCustomValue = yamlConfigurationProperties.getYamlCustomValue();
         return yamlCustomValue.getYamlTrees();
+    }
+
+    @ShellMethod("Get servers IP list")
+    public List<CustomConfigurationProperty.Server> getServersIp() {
+        return customConfigurationProperty.getServers();
+    }
+
+    @ShellMethod("Get yaml servers IP list")
+    public List<YamlCustomValue.Server> getYamlServersIp() {
+        return yamlConfigurationProperties.getYamlCustomValue().getServers();
+    }
+
+    @ShellMethod("Get servers IP Map")
+    public Map<String, CustomConfigurationProperty.Server> getServerMapIp() {
+        return customConfigurationProperty.getServerMap();
+    }
+
+    @ShellMethod("Get yaml servers IP Map")
+    public Map<String, YamlCustomValue.Server> getYamlServersMapIp() {
+        return yamlConfigurationProperties.getYamlCustomValue().getServersMap();
     }
 }
