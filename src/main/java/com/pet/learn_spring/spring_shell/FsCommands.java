@@ -5,11 +5,16 @@ import com.pet.learn_spring.core.configuration.CustomConfigurationProperty;
 import com.pet.learn_spring.core.configuration.CustomRecordProperty;
 import com.pet.learn_spring.core.configuration.yaml_config.YamlConfigurationProperties;
 import com.pet.learn_spring.core.configuration.yaml_config.YamlCustomValue;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.PayloadApplicationEvent;
 import org.springframework.core.env.Environment;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.util.unit.DataSize;
 
+import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +25,8 @@ public class FsCommands {
     private final CustomConfigurationProperty customConfigurationProperty;
     private final CustomRecordProperty customRecordProperty;
     private final YamlConfigurationProperties yamlConfigurationProperties;
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
 
     public FsCommands(
             FileSystem fileSystem,
@@ -74,7 +81,7 @@ public class FsCommands {
 
     @ShellMethod("Get yaml servers IP list")
     public List<YamlCustomValue.Server> getYamlServersIp() {
-        return yamlConfigurationProperties.getYamlCustomValue().getServers();
+        return yamlConfigurationProperties.getYamlCustomValue().getServersList();
     }
 
     @ShellMethod("Get servers IP Map")
@@ -84,6 +91,32 @@ public class FsCommands {
 
     @ShellMethod("Get yaml servers IP Map")
     public Map<String, YamlCustomValue.Server> getYamlServersMapIp() {
+        sendFsCommandsEvent("Get yaml servers IP Map");
         return yamlConfigurationProperties.getYamlCustomValue().getServersMap();
+    }
+
+    private void sendFsCommandsEvent(String commandName) {
+        PayloadApplicationEvent<String> event = new PayloadApplicationEvent<>(
+                this,
+                commandName
+        );
+
+        eventPublisher.publishEvent(event);
+    }
+
+    @ShellMethod("Display if a path exists")
+    public String exists(Path path) {
+        Boolean exists;
+        try {
+
+            var pathRoot = path.getRoot();
+            if (pathRoot == null) exists = false;
+            else exists = true;
+        } catch (InvalidPathException exception) {
+            exists = false;
+        }
+        return String.format(
+                "Path to '%s' %s exist: ", path, exists ? "does" : "doesn't"
+        );
     }
 }
