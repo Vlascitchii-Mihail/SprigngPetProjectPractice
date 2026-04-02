@@ -8,9 +8,11 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.shell.jline.PromptProvider;
 
 import java.lang.reflect.AnnotatedElement;
+import java.nio.file.Path;
 import java.security.SecureRandom;
 import java.util.Random;
 
@@ -38,5 +40,15 @@ public class CustomShellPromptProvider  {
         && member.isAnnotationPresent(CryptographicalAnnotation.class))
                 ? new SecureRandom()
         : new Random();
+    }
+
+    @Bean
+    public Converter<String, Path> convertPathFromString() {
+        return new Converter<String, Path>() {
+            @Override
+            public Path convert(String source) {
+                return Path.of(source);
+            }
+        };
     }
 }

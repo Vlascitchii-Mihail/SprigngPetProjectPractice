@@ -10,7 +10,7 @@ public class YamlCustomValue {
     private int yamlFilesystemMinimumFreeDiskSpace;
 
     public record Server(String ip) {}
-    private List<Server> servers = new ArrayList<>();
+    private List<Server> serversList = new ArrayList<>();
     private Map<String, Server> serversMap = new HashMap<>();
 
     public int getYamlTrees() { return yamlTrees; }
@@ -23,12 +23,12 @@ public class YamlCustomValue {
         this.yamlFilesystemMinimumFreeDiskSpace = yamlFilesystemMinimumFreeDiskSpace;
     }
 
-    public List<Server> getServers() {
-        return  servers;
+    public List<Server> getServersList() {
+        return serversList;
     }
 
-    public void setServers(List<Server> servers) {
-        this.servers = servers;
+    public void setServersList(List<Server> serversList) {
+        this.serversList = serversList;
     }
 
     public Map<String, Server> getServersMap() {

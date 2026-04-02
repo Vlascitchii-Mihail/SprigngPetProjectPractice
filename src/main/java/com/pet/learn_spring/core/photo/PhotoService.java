@@ -1,12 +1,17 @@
 package com.pet.learn_spring.core.photo;
 
 import com.pet.learn_spring.core.FileSystem;
+import com.pet.learn_spring.core.event.NewPhotoEvent;
 import com.pet.learn_spring.core.photo.thumbnail.Thumbnail;
 import com.pet.learn_spring.core.photo.thumbnail.ThumbnailRendering;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.PayloadApplicationEvent;
 import org.springframework.stereotype.Service;
 
 import java.io.UncheckedIOException;
+import java.time.OffsetDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -15,6 +20,8 @@ public class PhotoService {
 
     private final FileSystem fileSystem;
     private final Thumbnail thumbnail;
+    @Autowired
+    private ApplicationEventPublisher publisher;
 
     public PhotoService(
             @NotNull FileSystem fileSystem,
@@ -40,6 +47,18 @@ public class PhotoService {
         byte[] thumbnailBytes = thumbnail.thumbnail(imageBytes);
         fileSystem.store(imageName + "-thumb.jpg", thumbnailBytes);
 
+        sendPhotoEvent(imageName, OffsetDateTime.now());
+
         return imageName;
+    }
+
+    private void sendPhotoEvent(String imageName, OffsetDateTime dateTime) {
+        NewPhotoEvent newPhotoEvent = new NewPhotoEvent(imageName, dateTime);
+        PayloadApplicationEvent<NewPhotoEvent> event = new PayloadApplicationEvent<>(
+                this,
+                newPhotoEvent
+        );
+
+        publisher.publishEvent(event);
     }
 }
