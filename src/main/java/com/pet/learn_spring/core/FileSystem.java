@@ -15,11 +15,15 @@ import java.nio.file.Paths;
 @ConditionalOnExpression
 @Conditional(LowDiskSpaceCondition.class)
 public class FileSystem {
-
-    private final Path root = Paths.get(System.getProperty("user.home"))
-            .resolve("SpringDirectory/unicorns");
+    private final Path root;
 
     public FileSystem() {
+        this(Paths.get(System.getProperty("user.home"))
+            .resolve("SpringDirectory/unicorns"));
+    }
+
+    public FileSystem(Path root) {
+        this.root = root;
         if (!Files.isDirectory(root)) {
             try {
                 Files.createDirectory(root);
@@ -29,7 +33,7 @@ public class FileSystem {
         }
     }
 
-    private Path resolvePath(String fileName) {
+    private Path resolvePath(String fileName) throws SecurityException {
         Path path = root.resolve(fileName).toAbsolutePath().normalize();
 
         if (!path.startsWith(root)) {
@@ -44,7 +48,7 @@ public class FileSystem {
         try {
             Path path = resolvePath(fileName);
             return Files.readAllBytes(path);
-        }catch(IOException ex) {
+        } catch(IOException ex) {
             throw new UncheckedIOException(ex);
         }
     }

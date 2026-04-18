@@ -12,6 +12,7 @@ logging:
 com.yaml-custom-value:
     yaml-trees: 200
     yaml-filesystem-minimum-free-disk-space: 1000000
+    yaml-filesystem-low-free-disk-space: 10
     servers-list:
       - ip:126.32.66.28
       - 111.229.178.175

@@ -58,7 +58,6 @@ public class PhotoService {
                 this,
                 newPhotoEvent
         );
-
-        publisher.publishEvent(event);
+        if (publisher != null) publisher.publishEvent(event);
     }
 }
