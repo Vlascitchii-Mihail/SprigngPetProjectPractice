@@ -1,0 +1,21 @@
+com.yaml-custom-value:
+  yaml-trees: 300
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: test1
+
+com.yaml-custom-value:
+  yaml-trees: 500
+
+---
+spring:
+  config:
+    activate:
+      on-profile: test2
+
+com.yaml-custom-value:
+    yaml-trees: 700
